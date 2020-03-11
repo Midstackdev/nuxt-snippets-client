@@ -9,10 +9,27 @@
             </nuxt-link>
             <a 
                 href="#"
-                class="lg:hidden ml-auto" 
+                class="lg:hidden ml-auto flex flex-col justify-center w-8 h-8" 
                 @click.prevent="mobileNavOpen = !mobileNavOpen"
             >
-                Open
+                <span 
+                    class="bg-blue-500 h-1 w-8 rounded mb-1"
+                    :class="{
+                        'origin-center absolute right-4 transform rotate-45': mobileNavOpen
+                    }"
+                ></span>
+                <span 
+                    class="bg-blue-500 h-1 w-8 rounded mb-1"
+                    :class="{
+                        'origin-center absolute right-4 transform -rotate-45': mobileNavOpen
+                    }"
+                ></span>
+                <span 
+                    class="bg-blue-500 h-1 w-8 rounded mb-1"
+                    :class="{
+                        'hidden': mobileNavOpen
+                    }"
+                ></span>
             </a>
             <div 
                 class="w-full flex"
