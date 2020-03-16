@@ -6,7 +6,7 @@
                     <input 
                         type="text" 
                         class="text-4xl text-gray-700 font-medium font-header leading-tight mb-4 w-full block p-2 border-2 rounded border-dashed outline-none"
-                        value="Snippets"
+                        v-model="snippet.title"
                         placeholder="Untitled snippet" 
                     >
 
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-
+        {{steps}}
         <div class="container">
             <div class="flex items-center mb-6">
                 <div class="text-xl text-gray-600 font-medium mr-3">
@@ -31,7 +31,7 @@
                 <input 
                     type="text" 
                     class="text-xl text-gray-600 font-medium p-2 py-1 bg-transparent border-2 rounded border-dashed outline-none w-full"
-                    value="Snippets"
+                    v-model="currentStep.title"
                     placeholder="Untitled step" 
                 >
             </div>
@@ -58,7 +58,8 @@
                     </div>
 
                     <div class="w-full lg:mr-2">
-                        <textarea class="w-full mb-6 border-2 border-dashed border-gray-400 rounded-lg outline-none"></textarea>
+                        <textarea class="w-full mb-6 border-2 border-dashed border-gray-400 rounded-lg outline-none" v-model="currentStep.body">
+                        </textarea>
                         <div class="bg-white p-8 rounded-lg text-gray-600">
                             Markdown content
                         </div>
@@ -101,7 +102,7 @@
                         <ul>
                            <li
                             class="mb-1"
-                            v-for="(step, index) in 5"
+                            v-for="(step, index) in orderedStepsAsc"
                             :key="index"
                            >
                             <nuxt-link
@@ -110,7 +111,7 @@
                                     'font-bold': index === 0
                                 }"
                             >
-                                {{ index + 1}}. Step title
+                                {{ index + 1}}. {{step.title || 'Untitled step'}}
                             </nuxt-link> 
                            </li> 
                         </ul>
@@ -124,3 +125,73 @@
         </div>
     </div>
 </template>
+
+
+<script>
+    import { orderBy as _orderBy } from 'lodash'
+    import { debounce as _debounce } from 'lodash'
+
+    export default {
+
+        data () {
+            return {
+                snippet: null,
+                steps: []
+            }
+        },
+
+        head () {
+            return {
+                title: `Editing ${this.snippet.title || 'Untitled snippet'}`
+            }
+        },
+
+        watch: {
+            'snippet.title': {
+                handler: _debounce(async function (title) {
+                   await this.$axios.$patch(`/snippets/${this.snippet.uuid}`, {
+                    title
+                   })
+                }, 500)
+            },
+
+            currentStep: {
+                deep: true,
+
+                handler: _debounce(async function (step) {
+                    await this.$axios.$patch(`/snippets/${this.snippet.uuid}/steps/${step.uuid}`, {
+                        title: step.title, 
+                        body: step.body
+                    })
+                }, 500)
+            }
+        },
+
+        computed: {
+            orderedStepsAsc() {
+                return _orderBy(
+                    this.steps, 'order', 'asc'
+                )
+            },
+
+            firstStep() {
+                return this.orderedStepsAsc[0]
+            },
+
+            currentStep() {
+                return this.orderedStepsAsc.find(
+                    (s) => s.uuid === this.$route.query.step
+                ) || this.firstStep
+            }
+        },
+
+        async asyncData ({app, params}) {
+            let snippet = await app.$axios.$get(`snippets/${params.id}`)
+
+            return {
+                snippet: snippet.data,
+                steps: snippet.data.steps.data
+            }
+        }
+    }
+</script>
