@@ -4,7 +4,7 @@
             <div class="container py-10 pb-16">
                 <div class="w-10/12">
                     <h1 class="text-4xl text-gray-700 font-medium leading-tight mb-4">
-                        Snippets
+                        {{snippet.title }}
                     </h1>
 
                     <div class="text-gray-600">
@@ -12,7 +12,7 @@
                         <nuxt-link
                             :to="{}"
                         >
-                            Alfred Smith
+                            {{ snippet.author.data.name }}
                         </nuxt-link>
                     </div>
                 </div>
@@ -21,35 +21,41 @@
 
         <div class="container">
             <h1 class="text-xl text-gray-600 font-medium mb-6">
-                1/1. Step title
+                {{ currentStepIndex + 1}}/{{ steps.length }}. {{ currentStep.title }}
             </h1>
 
             <div class="flex flex-wrap lg:flex-no-wrap">
                 <div class="w-full lg:w-8/12 lg:mr-16 flex flex-wrap lg:flex-no-wrap justify-between items-start mb-8">
 
-                    <div class="order-first">
-                        <nuxt-link 
-                            :to="{}"
-                            class="block mb-2 p-3 bg-blue-500 rounded-lg mr-2"
+                    <div class="order-first mr-2">
+                        <StepNavigationButton
+                            :step="previousStep"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current text-white h-6 w-6"><path d="M5.41 11H21a1 1 0 0 1 0 2H5.41l5.3 5.3a1 1 0 0 1-1.42 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.42 1.4L5.4 11z"/></svg>
-                        </nuxt-link>
+                        </StepNavigationButton>
                     </div>
 
                     <div class="bg-white p-8 rounded-lg text-gray-600 w-full mr-2">
-                        Markdown content
+                        {{ currentStep.body }}
                     </div>
 
                     <div class="order-first lg:order-last flex flex-row lg:flex-col">
-                        <nuxt-link 
-                            :to="{}"
-                            class="block mb-2 p-3 bg-blue-500 rounded-lg"
+                        <StepNavigationButton
+                            :step="nextStep"
                         >
-                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current text-white h-6 w-6"><path d="M18.59 13H3a1 1 0 0 1 0-2h15.59l-5.3-5.3a1 1 0 1 1 1.42-1.4l7 7a1 1 0 0 1 0 1.4l-7 7a1 1 0 0 1-1.42-1.4l5.3-5.3z"/></svg>
-                        </nuxt-link>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current text-white h-6 w-6"><path d="M18.59 13H3a1 1 0 0 1 0-2h15.59l-5.3-5.3a1 1 0 1 1 1.42-1.4l7 7a1 1 0 0 1 0 1.4l-7 7a1 1 0 0 1-1.42-1.4l5.3-5.3z"/></svg>
+                        </StepNavigationButton>
 
                         <nuxt-link 
-                            :to="{}"
+                            :to="{
+                                name: 'snippets-id-edit',
+                                params: {
+                                    id: snippet.uuid
+                                },
+                                query: {
+                                    step: currentStep.uuid
+                                }
+                            }"
                             class="block mb-2 p-3 bg-blue-500 rounded-lg order-first lg:order-last mr-2 lg:mr-0"
                             title="edit step"
                         >
@@ -65,22 +71,10 @@
                             Steps
                         </h1>
 
-                        <ul>
-                           <li
-                            class="mb-1"
-                            v-for="(step, index) in 5"
-                            :key="index"
-                           >
-                            <nuxt-link
-                                :to="{}"
-                                :class="{
-                                    'font-bold': index === 0
-                                }"
-                            >
-                                {{ index + 1}}. Step title
-                            </nuxt-link> 
-                           </li> 
-                        </ul>
+                        <StepList 
+                            :steps="orderedStepsAsc"
+                            :currentStep="currentStep"
+                        />
                     </div>
 
                     <div class="text-gray-500 text-sm">
@@ -91,3 +85,43 @@
         </div>
     </div>
 </template>
+
+<script>
+    import StepList from './components/StepList'
+    import StepNavigationButton from './components/StepNavigationButton'
+
+    import browseSnippet from '@/mixins/snippets/browseSnippet'
+
+    export default {
+        components: {
+            StepList,
+            StepNavigationButton
+        },
+
+        data () {
+            return {
+                snippet: null,
+                steps: []
+            }
+        },
+
+        head () {
+            return {
+                title: `${this.snippet.title || 'Untitled snippet'}`
+            }
+        },
+
+        mixins: [
+            browseSnippet
+        ],
+
+        async asyncData ({app, params}) {
+            let snippet = await app.$axios.$get(`snippets/${params.id}`)
+
+            return {
+                snippet: snippet.data,
+                steps: snippet.data.steps.data
+            }
+        }
+    }
+</script>
