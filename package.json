@@ -16,6 +16,7 @@
     "dotenv": "^8.2.0",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
+    "react-hot-keys": "^2.5.1",
     "tailwindcss": "^1.2.0"
   },
   "devDependencies": {}

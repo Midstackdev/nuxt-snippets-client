@@ -46,7 +46,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current text-white h-6 w-6"><path d="M18.59 13H3a1 1 0 0 1 0-2h15.59l-5.3-5.3a1 1 0 1 1 1.42-1.4l7 7a1 1 0 0 1 0 1.4l-7 7a1 1 0 0 1-1.42-1.4l5.3-5.3z"/></svg>
                         </StepNavigationButton>
 
-                        <nuxt-link 
+                        <nuxt-link
+                            v-if="snippet.user.data.owner" 
                             :to="{
                                 name: 'snippets-id-edit',
                                 params: {
@@ -88,7 +89,7 @@
 
 <script>
     import StepList from './components/StepList'
-    import StepNavigationButton from './components/StepNavigationButton'
+    import StepNavigationButton from './components/StepNavigationButton' 
 
     import browseSnippet from '@/mixins/snippets/browseSnippet'
 
