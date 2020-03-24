@@ -34,9 +34,12 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current text-white h-6 w-6"><path d="M5.41 11H21a1 1 0 0 1 0 2H5.41l5.3 5.3a1 1 0 0 1-1.42 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.42 1.4L5.4 11z"/></svg>
                         </StepNavigationButton>
                     </div>
+                    
 
                     <div class="bg-white p-8 rounded-lg text-gray-600 w-full mr-2">
-                        {{ currentStep.body }}
+                        <StepMarkdown 
+                            :value="currentStep.body"
+                        />
                     </div>
 
                     <div class="order-first lg:order-last flex flex-row lg:flex-col">
@@ -92,11 +95,13 @@
     import StepNavigationButton from './components/StepNavigationButton' 
 
     import browseSnippet from '@/mixins/snippets/browseSnippet'
+    import StepMarkdown from '@/components/snippets/StepMarkdown'
 
     export default {
         components: {
             StepList,
-            StepNavigationButton
+            StepNavigationButton,
+            StepMarkdown
         },
 
         data () {

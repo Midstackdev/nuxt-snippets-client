@@ -55,11 +55,10 @@
                     </div>
 
                     <div class="w-full lg:mr-2">
-                        <textarea class="w-full mb-6 border-2 border-dashed border-gray-400 rounded-lg outline-none" v-model="currentStep.body">
-                        </textarea>
-                        <div class="bg-white p-8 rounded-lg text-gray-600">
-                            Markdown content
-                        </div>
+                        <StepEditor
+                            :step="currentStep"
+                            v-model="currentStep.body"
+                        />
                     </div>
 
                     <div class="order-first lg:order-last flex flex-row-reverse lg:flex-col">
@@ -149,6 +148,8 @@
     import StepNavigationButton from '../components/StepNavigationButton'
     import AddStepButton from './components/AddStepButton'
     import DeleteStepButton from './components/DeleteStepButton'
+    import StepEditor from './components/StepEditor'
+    
 
     import browseSnippet from '@/mixins/snippets/browseSnippet'
 
@@ -160,7 +161,8 @@
             StepList,
             StepNavigationButton,
             AddStepButton,
-            DeleteStepButton
+            DeleteStepButton,
+            StepEditor
         },
 
         data () {
