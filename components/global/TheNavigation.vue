@@ -2,7 +2,7 @@
     <div class="bg-white py-8 lg:py-0 flex items-center">
         <div class="container flex flex-wrap items-center lg:flex-no-wrap">
             <nuxt-link
-                :to="{ name: 'home'}"
+                :to="{ name: 'index'}"
                 class="mr-10 flex-shrink-0"
             >
                 <img src="~/assets/logo.svg" alt="Logo" class="h-8">
@@ -41,7 +41,7 @@
                 <ul class="lg:h-24 lg:flex items-center w-full lg:w-auto">
                     <li>
                         <nuxt-link
-                            :to="{name: 'home'}"
+                            :to="{name: 'browse'}"
                             class="text-lg text-gray-700 lg:py-8 lg:px-4"
                         >
                             Browse    
@@ -49,7 +49,7 @@
                     </li>
                     <li>
                         <nuxt-link
-                            :to="{name: 'home'}"
+                            :to="{name: 'index'}"
                             class="text-lg text-gray-700 lg:py-8 lg:px-4"
                         >
                             Search    
