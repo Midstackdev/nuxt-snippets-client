@@ -33,6 +33,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/algolia'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -76,6 +77,11 @@ export default {
   ** Build configuration
   */
   build: {
+    transpile: [
+      'vue-instantsearch',
+      'instantsearch.js/es'
+    ],
+
     postcss: {
       plugins: {
         tailwindcss: './tailwind.config.js'

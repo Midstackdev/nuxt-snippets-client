@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.8.5",
     "@nuxtjs/axios": "^5.9.5",
+    "algoliasearch": "^4.1.0",
     "codemirror": "^5.52.2",
     "dotenv": "^8.2.0",
     "highlight.js": "^9.18.1",
@@ -22,7 +23,8 @@
     "nuxt": "^2.0.0",
     "react-hot-keys": "^2.5.1",
     "sass-loader": "^8.0.2",
-    "tailwindcss": "^1.2.0"
+    "tailwindcss": "^1.2.0",
+    "vue-instantsearch": "^2.7.0"
   },
   "devDependencies": {}
 }
