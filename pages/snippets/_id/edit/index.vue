@@ -174,6 +174,10 @@
             }
         },
 
+        middleware: [
+            'auth'
+        ],
+
         mixins: [
             browseSnippet
         ],

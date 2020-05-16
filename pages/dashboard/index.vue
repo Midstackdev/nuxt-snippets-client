@@ -36,6 +36,10 @@
             }
         },
 
+        middleware: [
+            'auth'
+        ],
+
         head () {
             return {
                 title: 'Dashboard',
