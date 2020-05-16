@@ -21,7 +21,7 @@
                             </label>
 
                             <input 
-                                type="text" 
+                                type="email" 
                                 name="email" 
                                 id="email"
                                 class="border-2 border-gray-400 rounded block w-full p-3"
@@ -38,7 +38,7 @@
 
                         <div class="mb-6">
                             <label 
-                                for="email"
+                                for="name"
                                 class="block text-gray-600 font-medium mb-2" 
                             >
                                 Name
@@ -62,7 +62,7 @@
 
                         <div class="mb-6">
                             <label 
-                                for="email"
+                                for="username"
                                 class="block text-gray-600 font-medium mb-2" 
                             >
                                 Username
@@ -103,6 +103,9 @@
                             >
                             <div class="text-red-500 mb-4 text-sm mt-1" v-if="validation.password">
                                 {{ validation.password[0] }}
+                            </div>
+                            <div class="text-gray-500 mb-4 text-sm mt-1">
+                                Leave blank to keep the same
                             </div>
                         </div>
                         <div>
@@ -149,6 +152,8 @@
                 try {
                     await this.$axios.$patch(`users/${this.$auth.user.username}`, this.form)
                     await this.$auth.fetchUser()
+                    this.form.password = null
+                    this.validation = {}
                 } catch(e) {
                     if (e.response.status === 422) {
                         this.validation = e.response.data.errors

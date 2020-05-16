@@ -13,9 +13,14 @@
                     <div class="text-gray-600">
                         Created by
                         <nuxt-link
-                            :to="{}"
+                            :to="{
+                                name: 'author-id',
+                                params: {
+                                    id: snippet.author.data.username
+                                }
+                            }"
                         >
-                            Alfred Smith
+                           {{ snippet.author.data.name }}
                         </nuxt-link>
                     </div>
                 </div>
