@@ -66,20 +66,20 @@
                                 Dashboard    
                             </nuxt-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <nuxt-link
                                 :to="{name: 'auth-signin'}"
                                 class="text-lg text-gray-700 lg:py-8 lg:px-44"
                             >
                                 Account    
                             </nuxt-link>
-                        </li>
+                        </li> -->
                         <li>
                             <nuxt-link
-                                :to="{name: 'auth-signin'}"
+                                :to="{name: 'account'}"
                                 class="text-lg text-gray-700 lg:py-8 lg:px-4"
                             >
-                                Alfred Smith    
+                                {{ $auth.user.name }}   
                             </nuxt-link>
                         </li>
                         <li>
