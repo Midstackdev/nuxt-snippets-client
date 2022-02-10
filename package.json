@@ -19,7 +19,7 @@
     "highlight.js": "^9.18.1",
     "markdown-it": "^10.0.0",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "nuxt": "^2.0.0",
     "react-hot-keys": "^2.5.1",
     "sass-loader": "^8.0.2",
